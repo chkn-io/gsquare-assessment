@@ -3,7 +3,7 @@ _From Percian Joseph Borja_
 
 ---
 
-## 🧠 Bonus Question: Loyalty App Strategy
+## Bonus Question: Loyalty App Strategy
 
 If I were building a custom Shopify app to hook into a third-party loyalty system, I’d kick things off by setting up the usual OAuth flow so we can securely get the merchant’s access token. That token’s our golden key to talk to the Shopify Admin API. From there, I’d wire up webhooks like `orders/create` and `customers/create` so we can catch events in real-time — every time someone makes a purchase or signs up, we shoot that data over to the loyalty service and keep things in sync.
 
@@ -24,7 +24,7 @@ For the merchant side, I’d build a clean admin interface using Polaris and App
 
 ---
 
-## 2. 🗂 Collection Page Enhancements
+## 2. Collection Page Enhancements
 
 - **Custom Filters Using Tags**  
   I used Shopify’s **Search & Discovery** app to create tag-based filters (e.g., by Color).
@@ -41,7 +41,7 @@ The checkbox is also auto-checked on reload if the item is already in the cart a
 
 ---
 
-## 4. 🔔 Webhook Integration (`orders/create`)
+## 4. Webhook Integration (`orders/create`)
 
 I created a simple `webhook.php` listener for the `orders/create` webhook event. It does the following:
 
@@ -58,7 +58,7 @@ This is a clean, no-database setup perfect for testing or light usage.
 
 ---
 
-## 5. 🔧 Admin API Integration (Metafields)
+## 5. Admin API Integration (Metafields)
 
 ### Endpoint:
 path/to/project/webhoost_and_api/update_metafield.php?value=[any_value_you_want_to_save]
