@@ -1,3 +1,84 @@
+# Shopify Developer Technical Challenge  
+_From Percian Joseph Borja_
+
+---
+
+## 🧠 Bonus Question: Loyalty App Strategy
+
+If I were building a custom Shopify app to hook into a third-party loyalty system, I’d kick things off by setting up the usual OAuth flow so we can securely get the merchant’s access token. That token’s our golden key to talk to the Shopify Admin API. From there, I’d wire up webhooks like `orders/create` and `customers/create` so we can catch events in real-time — every time someone makes a purchase or signs up, we shoot that data over to the loyalty service and keep things in sync.
+
+For the merchant side, I’d build a clean admin interface using Polaris and App Bridge so it feels native inside Shopify. They’d be able to tweak settings, see points activity, and maybe trigger manual syncs if needed. On the backend, I’d queue up API calls just to keep things smooth and avoid timeouts. And of course, I’d make sure everything’s secure with webhook verification and encrypted tokens. Nothing too fancy — just clean, fast, and solid.
+
+---
+
+## 1. 🛍 Product Page Enhancements
+
+- **Sale Badge (% OFF)**  
+  I removed the default "Sale" badge and replaced it with a dynamic "N% OFF" badge directly inside `price.liquid`.
+
+- **Low Stock Warning**  
+  If the inventory is less than 5, a “Low stock – order soon!” message appears below the price and sale badge.
+
+- **Add to Cart Bonus (Free Product Over $150)**  
+  A JavaScript snippet checks the cart subtotal. If it exceeds $150, a free product (using the provided product ID) is automatically added. It’s added only once and removed if the cart total drops below $150.
+
+---
+
+## 2. 🗂 Collection Page Enhancements
+
+- **Custom Filters Using Tags**  
+  I used Shopify’s **Search & Discovery** app to create tag-based filters (e.g., by Color).
+
+- **Lazy-Loading Images**  
+  Added `loading="lazy"` to product images in the collection template to improve page performance.
+
+---
+
+## 3. 🛒 Cart Page – Gift Wrap Option
+
+Added a checkbox labeled “Add gift wrap ($5)”. When selected, it adds a separate "Gift Wrap" product to the cart. When unchecked, the product is removed.  
+The checkbox is also auto-checked on reload if the item is already in the cart and displays a "Please wait…" label while processing.
+
+---
+
+## 4. 🔔 Webhook Integration (`orders/create`)
+
+I created a simple `webhook.php` listener for the `orders/create` webhook event. It does the following:
+
+- Reads the raw JSON from the POST body
+- Extracts and logs:
+  - Order ID
+  - Customer email
+  - Total price
+  - Line items (product name + quantity)
+- Writes the info to a local file: `orders_log.json`
+- Sends a `200 OK` response back to Shopify to confirm it was received
+
+This is a clean, no-database setup perfect for testing or light usage.
+
+---
+
+## 5. 🔧 Admin API Integration (Metafields)
+
+### Endpoint:
+path/to/project/webhoost_and_api/update_metafield.php?value=[any_value_you_want_to_save]
+
+
+
+This PHP script is a quick API endpoint I built to update the value of a product metafield in Shopify — specifically custom.warehouse_location. You can pass the new value directly through the URL using ?value=your_value, which makes it easy to test or trigger from a browser or script.
+
+When the script runs, it first pulls all existing metafields for the given product (using the Admin API). It then loops through them to find the one with the key warehouse_location inside the custom namespace. Once it has that metafield's ID, it sends a PUT request to update its value to whatever was passed in via the query string. If no value is given, it defaults to "abc".
+
+The final response confirms the status with the HTTP code and shows the updated value 
+
+
+Before running update_metafield.php, make sure to update the following variables inside the script:
+
+$store = '';           // Your Shopify store domain (e.g., 'your-store.myshopify.com' — no https://)
+$accessToken = '';     // Your Admin API access token (found in Shopify > Apps > Your App > API Credentials)
+$productId = '';       // The product ID you want to update the metafield for
+
+
 # Dawn
 
 [![Build status](https://github.com/shopify/dawn/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Shopify/dawn/actions/workflows/ci.yml?query=branch%3Amain)
