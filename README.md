@@ -11,7 +11,7 @@ For the merchant side, I’d build a clean admin interface using Polaris and App
 
 ---
 
-## 1. 🛍 Product Page Enhancements
+## 1. Product Page Enhancements
 
 - **Sale Badge (% OFF)**  
   I removed the default "Sale" badge and replaced it with a dynamic "N% OFF" badge directly inside `price.liquid`.
