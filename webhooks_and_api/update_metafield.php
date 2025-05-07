@@ -16,7 +16,7 @@ curl_close($ch);
 $metafields = json_decode($response, true);
 
 if (!$metafields || !isset($metafields['metafields'])) {
-    die("❌ Could not fetch metafields.\n");
+    die("Could not fetch metafields.\n");
 }
 
 // Step 2: Find the warehouse_location metafield
@@ -29,7 +29,7 @@ foreach ($metafields['metafields'] as $meta) {
 }
 
 if (!$target) {
-    die("❌ warehouse_location metafield not found.\n");
+    die("warehouse_location metafield not found.\n");
 }
 
 $metafieldId = $target['id'];
@@ -55,4 +55,4 @@ $updateResponse = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-echo "✅ HTTP $httpCode - warehouse_location updated to '$newValue'.\n";
+echo "HTTP $httpCode - warehouse_location updated to '$newValue'.\n";
